@@ -1,8 +1,13 @@
-import * as mongoose from 'mongoose';
+import { Document, Schema, model } from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+export interface User extends Document {
+  name: string;
+  age: number;
+}
+
+const UserSchema: Schema = new Schema({
   name: { type: String },
-  age: { type: String }
+  age: { type: Number }
 });
 
-export default UserSchema;
+export default model<User>("User", UserSchema);

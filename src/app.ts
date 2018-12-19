@@ -1,16 +1,14 @@
 import * as express from "express";
 import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
-import DataBase from './config/db';
+import DataBase from "./config/db";
 import * as cors from "cors";
 import uploads from "./config/uploads";
 
-
- import Auth from './config/auth';
- 
+import Auth from "./config/auth";
 
 //Route
-import UserController from './controllers/userController';
+import UserController from "./controllers/userController";
 
 class App {
   public app: express.Application;
@@ -29,10 +27,16 @@ class App {
 
   enableCors() {
     const options: cors.CorsOptions = {
-      allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+      allowedHeaders: [
+        "Origin",
+        "X-Requested-With",
+        "Content-Type",
+        "Accept",
+        "X-Access-Token"
+      ],
       credentials: true,
       methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-      origin: '*',
+      origin: "*",
       preflightContinue: false
     };
 
@@ -54,22 +58,17 @@ class App {
   }
 
   routes() {
-
     this.app.route("/").get((req, res) => {
-      res.send({ 'result': 'version 0.0.2' })
+      res.send({ result: "version 0.0.2" });
     });
 
-    
     // this.app.use(Auth.validate);
-     
 
     this.app.route("/api/v1/users").get(UserController.get);
     this.app.route("/api/v1/users/:id").get(UserController.getById);
-    this.app.route("/api/v1/users").post(UserController.create);
+    this.app.post("/api/v1/users", UserController.create);
     this.app.route("/api/v1/users/:id").put(UserController.update);
     this.app.route("/api/v1/users/:id").delete(UserController.delete);
-
-
   }
 }
 
